@@ -91,9 +91,10 @@ architecture structural of sbox is
 	alias B is data_in(2);
 	alias C is data_in(1);
 	alias D is data_in(0);
-	signal nA, nB, nC, nD: std_logic;
-	signal nAnC, BnD, ACnD, nCD, AnC, AB, nAnB, nBnC, nCnD, nAnBnC, nAnBnD, nABC, BCnD, AnCD: std_logic; -- AND Gate
+	signal nA, nB, nC, nD: std_logic; -- NOT Gates
+	signal nAnC, BnD, ACnD, nCD, AnC, AB, nAnB, nBnC, nCnD, nAnBnC, nAnBnD, nABC, BCnD, AnCD: std_logic; -- AND Gates
 begin 
+	-- NOT Gates
 	N3: not1 port map(A,nA);
 	N2: not1 port map(B,nB);
 	N1: not1 port map(C,nC);
