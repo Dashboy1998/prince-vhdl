@@ -14,7 +14,7 @@ architecture structural of prince_top is
     -- and k0_end, and the key k1 which is used in prince_core
     alias k0_start is key(127 downto 64);
     alias k1 is key(63 downto 0);   
-    signal k0_end std_logic_vector(63 downto 0);
+    signal k0_end: std_logic_vector(63 downto 0);
     -- Data I/O for prince_core
     signal core_in,
            core_out: std_logic_vector(63 downto 0);
