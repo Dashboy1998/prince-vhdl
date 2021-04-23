@@ -14,7 +14,8 @@ architecture structural of prince_core is
 	type intermediate_signals is array(0 to 11) of std_logic_vector(63 downto 0);
 	
 	-- Round constants for each round
-	constant rcs: round_constants := (x"0000000000000000",
+	constant rcs: round_constants := (
+	x"0000000000000000",
 	x"13198A2E03707344",
 	x"A4093822299F31D0",
 	x"082EFA98EC4E6C89",
