@@ -57,17 +57,62 @@ begin
 end architecture dataflow;
 
 architecture structural of sbox_inv is
+	component not1
+		port( 
+		A: in std_logic;
+		Z: out std_logic 
+		);
+	end component not1; 
+	component and2
+		port( 
+		A, B: in std_logic;
+		Z: out std_logic 
+		);
+	end component and2;
+	component and3
+		port( 
+		A, B, C: in std_logic;
+		Z: out std_logic 
+		);
+	end component and3;
+	component or3
+		port( 
+		A, B, C: in std_logic;
+		Z: out std_logic 
+		);
+	end component or3;
+	component or4
+		port( 
+		A, B, C, D: in std_logic;
+		Z: out std_logic 
+		);
+	end component or4;
 	alias A is data_in(3);
 	alias B is data_in(2);
 	alias C is data_in(1);
 	alias D is data_in(0);
-	signal nA, nB, nC, nD: std_logic;
+	signal nA, nB, nC, nD: std_logic; -- NOT Gates
+	-- AND Gate
 begin 
-	nA <= not A;
-	nB <= not B;
-	nC <= not C;
-	nD <= not D;
+	-- NOT Gates
+	N3: not1 port map(A,nA);
+	N2: not1 port map(B,nB);
+	N1: not1 port map(C,nC);
+	N0: not1 port map(D,nD);
 	
+	-- Products of dataout(3)
+
+	
+	-- Products of dataout(2)
+
+
+	-- Products of dataout(1)
+
+
+	-- Products of dataout(0)
+
+
+	-- Sum of Products
 	data_out(3) <= (nA and B) or (nB and nC and nD) or (B and nC and D) or (B and C and nD);
 	data_out(2) <= (nC and D) or (B and nC) or (A and C and nD);
 	data_out(1) <= (nA and nB) or (nB and nC) or (nA and nC and nD) or (A and nC and D);
