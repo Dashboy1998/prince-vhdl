@@ -55,3 +55,21 @@ begin
 	x"1" when x"F",
 	x"X" when others; -- Prevents latches
 end architecture dataflow;
+
+architecture structural of sbox_inv is
+	alias A is data_in(3);
+	alias B is data_in(2);
+	alias C is data_in(1);
+	alias D is data_in(0);
+	signal nA, nB, nC, nD: std_logic;
+begin 
+	nA <= not A;
+	nB <= not B;
+	nC <= not C;
+	nD <= not D;
+	
+	data_out(3) <= (nA and B) or (nB and nC and nD) or (B and nC and D) or (B and C and nD);
+	data_out(2) <= (nC and D) or (B and nC) or (A and C and nD);
+	data_out(1) <= (nA and nB) or (nB and nC) or (nA and nC and nD) or (A and nC and D);
+	data_out(0) <= (nA and nC) or (nA and nB and nD) or (B and nC and nD) or (B and C and D);
+end architecture structural;
