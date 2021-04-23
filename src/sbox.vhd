@@ -33,3 +33,44 @@ architecture behavioral of sbox is
             end case;
         end process;
     end behavioral;
+
+architecture dataflow of sbox is
+    begin
+        with data_in select data_out <=
+        x"B" when x"0",
+        x"F" when x"1",
+        x"3" when x"2",
+        x"2" when x"3",
+        x"A" when x"4",
+        x"C" when x"5",
+        x"9" when x"6",
+        x"1" when x"7",
+        x"6" when x"8",
+        x"7" when x"9",
+        x"8" when x"A",
+        x"0" when x"B",
+        x"E" when x"C",
+        x"5" when x"D",
+        x"D" when x"E",
+        x"4" when x"F",
+        x"X" when others; -- Prevents latches
+    end architecture dataflow;
+
+architecture structural of sbox is
+    alias A is data_in(3);
+    alias B is data_in(2);
+    alias C is data_in(1);
+    alias D is data_in(0);
+    signal nA, nB, nC, nD: std_logic;
+    begin 
+        nA <= not A;
+        nB <= not B;
+        nC <= not C;
+        nD <= not D;
+        
+        data_out(3) <= (nA and nC) or (B and nD) or (A and C and nD);
+        data_out(2) <= (nC and D) or (A and nC) or (A and B);
+        data_out(1) <= (nA and nB) or (nB and nC) or (nC and nD);
+        data_out(0) <= (nA and nB and nC) or (nA and nB and nD) or (nA and B and C) or (B and C and nD) or (A and nC and D);
+        
+end architecture structural;
