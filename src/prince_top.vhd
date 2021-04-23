@@ -12,9 +12,9 @@ end prince_top;
 architecture structural of prince_top is
     -- Intermediate signals for splitting the key into the whitening keys k0
     -- and k0_end, and the key k1 which is used in prince_core
-    signal k0_start,
-           k0_end,
-           k1: std_logic_vector(63 downto 0);
+    alias k0_start is key(127 downto 64);
+    alias k1 is key(63 downto 0);   
+    signal k0_end std_logic_vector(63 downto 0);
     -- Data I/O for prince_core
     signal core_in,
            core_out: std_logic_vector(63 downto 0);
@@ -28,9 +28,7 @@ architecture structural of prince_top is
 
     begin
         -- Key extension/whitening keys
-        k0_start <= key(127 downto 64);
         k0_end <= key(64) & key(127 downto 66) & (key(65) xor key(127));
-        k1 <= key(63 downto 0);
 
         -- PRINCE_core
         core_in <= plaintext xor k0_start;
