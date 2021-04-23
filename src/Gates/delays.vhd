@@ -13,4 +13,5 @@ package delays is
 	-- OR Gates
 	constant propagation_delay_or3: time := 20 ps;
 	constant propagation_delay_or4: time := 20 ps;
+	constant propagation_delay_or5: time := 20 ps;
 end package delays;
