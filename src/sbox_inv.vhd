@@ -33,3 +33,25 @@ begin
 		end case;
 	end process;
 end behavioral;
+
+architecture dataflow of sbox_inv is
+begin
+	with data_in select data_out <=
+	x"B" when x"0",
+	x"7" when x"1",
+	x"3" when x"2",
+	x"2" when x"3",
+	x"F" when x"4",
+	x"D" when x"5",
+	x"8" when x"6",
+	x"9" when x"7",
+	x"A" when x"8",
+	x"6" when x"9",
+	x"4" when x"A",
+	x"0" when x"B",
+	x"5" when x"C",
+	x"E" when x"D",
+	x"C" when x"E",
+	x"1" when x"F",
+	x"X" when others; -- Prevents latches
+end architecture dataflow;
