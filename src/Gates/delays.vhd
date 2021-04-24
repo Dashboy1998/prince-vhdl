@@ -14,4 +14,7 @@ package delays is
 	constant propagation_delay_or3: time := 20 ps;
 	constant propagation_delay_or4: time := 20 ps;
 	constant propagation_delay_or5: time := 20 ps;
+	
+	-- D Flip Flop
+	constant propagation_delay_dff: time := 100 ps;
 end package delays;
