@@ -92,7 +92,7 @@ architecture structural of sbox_inv is
 	alias C is data_in(1);
 	alias D is data_in(0);
 	signal nA, nB, nC, nD: std_logic; -- NOT Gates
-	-- AND Gate
+	signal nAB, nBnCnD, BnCD, BCnD, nCD, BnC, ACnD, nAnB, nBnC, nAnCnD, AnCD, nAnC, nAnBnD, BnCnD, BCD: std_logic; -- AND Gate
 begin 
 	-- NOT Gates
 	N3: not1 port map(A,nA);
@@ -101,20 +101,31 @@ begin
 	N0: not1 port map(D,nD);
 	
 	-- Products of dataout(3)
-
+	AND_nAB: and2 port map(nA,B,nAB); 
+	AND_nBnCnD: and3 port map(nB,nC,nD,nBnCnD);
+	AND_BnCD: and3 port map(B,nC,D,BnCD);
+	AND_BCnD: and3 port map(B,C,nD,BCnD);
 	
 	-- Products of dataout(2)
-
+	AND_nCD: and2 port map(nC,D,nCD);
+	AND_BnC: and2 port map(B,nC,BnC);
+	AND_ACnD: and3 port map(A,C,nD,ACnD);
 
 	-- Products of dataout(1)
-
+	AND_nAnB: and2 port map(nA,nB,nAnB);
+	AND_nBnC: and2 port map(nB,nC,nBnC);
+	AND_nAnCnD: and3 port map(nA,nC,nD,nAnCnD);
+	AND_AnCD: and3 port map(A,nC,D,AnCD);
 
 	-- Products of dataout(0)
-
+	AND_nAnC: and2 port map(nA,nC,nAnC);
+	AND_nAnBnD: and3 port map(nA,nB,nD,nAnBnD);
+	AND_BnCnD: and3 port map(B,nC,nD,BnCnD);
+	AND_BCD: and3 port map(B,C,D,BCD); 
 
 	-- Sum of Products
-	data_out(3) <= (nA and B) or (nB and nC and nD) or (B and nC and D) or (B and C and nD);
-	data_out(2) <= (nC and D) or (B and nC) or (A and C and nD);
-	data_out(1) <= (nA and nB) or (nB and nC) or (nA and nC and nD) or (A and nC and D);
-	data_out(0) <= (nA and nC) or (nA and nB and nD) or (B and nC and nD) or (B and C and D);
+	D3: or4 port map(nAB,nBnCnD,BnCD,BCnD,data_out(3));
+	D2: or3 port map(nCD,BnC,ACnD,data_out(2));
+	D1: or4 port map(nAnB,nBnC,nAnCnD,AnCD,data_out(1));
+	D0: or4 port map(nAnC,nAnBnD,BnCnD,BCD,data_out(0));
 end architecture structural;
