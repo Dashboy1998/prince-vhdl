@@ -8,54 +8,6 @@ entity sbox_inv is
 		);
 end sbox_inv;
 
-architecture behavioral of sbox_inv is
-begin
-	process(data_in)
-	begin
-		case data_in is
-			when x"0" => data_out <= x"B";
-			when x"1" => data_out <= x"7";
-			when x"2" => data_out <= x"3";
-			when x"3" => data_out <= x"2";
-			when x"4" => data_out <= x"F";
-			when x"5" => data_out <= x"D";
-			when x"6" => data_out <= x"8";
-			when x"7" => data_out <= x"9";
-			when x"8" => data_out <= x"A";
-			when x"9" => data_out <= x"6";
-			when x"A" => data_out <= x"4";
-			when x"B" => data_out <= x"0";
-			when x"C" => data_out <= x"5";
-			when x"D" => data_out <= x"E";
-			when x"E" => data_out <= x"C";
-			when x"F" => data_out <= x"1";
-			when others => null; -- GHDL complains without this statement
-		end case;
-	end process;
-end behavioral;
-
-architecture dataflow of sbox_inv is
-begin
-	with data_in select data_out <=
-	x"B" when x"0",
-	x"7" when x"1",
-	x"3" when x"2",
-	x"2" when x"3",
-	x"F" when x"4",
-	x"D" when x"5",
-	x"8" when x"6",
-	x"9" when x"7",
-	x"A" when x"8",
-	x"6" when x"9",
-	x"4" when x"A",
-	x"0" when x"B",
-	x"5" when x"C",
-	x"E" when x"D",
-	x"C" when x"E",
-	x"1" when x"F",
-	x"X" when others; -- Prevents latches
-end architecture dataflow;
-
 architecture structural of sbox_inv is
 	component not1
 		port( 
