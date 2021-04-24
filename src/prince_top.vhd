@@ -5,7 +5,8 @@ use ieee.std_logic_1164.all;
 entity prince_top is
 	port(data_in:  in std_logic_vector(63 downto 0);  -- 64 bit plaintext block
 		key:        in std_logic_vector(127 downto 0); -- 128 bit key
-		data_out: out std_logic_vector(63 downto 0)  -- 64 bit encrypted block 
+		data_out: out std_logic_vector(63 downto 0);  -- 64 bit encrypted block
+		CLK: in std_logic
 		);
 end prince_top;
 
@@ -22,7 +23,8 @@ architecture dataflow of prince_top is
 	component prince_core
 		port(data_in:  in std_logic_vector(63 downto 0);
 			key:      in std_logic_vector(63 downto 0);
-			data_out: out std_logic_vector(63 downto 0)
+			data_out: out std_logic_vector(63 downto 0);
+			CLK: in std_logic
 			);
 	end component;
 	
@@ -37,7 +39,8 @@ begin
 	PC: prince_core port map(
 		data_in => core_in,
 		key => k1,
-		data_out => core_out
+		data_out => core_out,
+		CLK => CLK
 		);
 end architecture dataflow;	
 
@@ -54,7 +57,8 @@ architecture structural of prince_top is
 	component prince_core
 		port(data_in:  in std_logic_vector(63 downto 0);
 			key:      in std_logic_vector(63 downto 0);
-			data_out: out std_logic_vector(63 downto 0)
+			data_out: out std_logic_vector(63 downto 0);
+			CLK: in std_logic
 			);
 	end component;
 	component xor2
@@ -81,6 +85,7 @@ begin
 	PC: prince_core port map(
 		data_in => core_in,
 		key => k1,
-		data_out => core_out
+		data_out => core_out,
+		CLK => CLK
 		);
 end architecture structural;

@@ -6,7 +6,8 @@ use work.constants.all;
 entity prince_core is
 	port(data_in:  in std_logic_vector(63 downto 0);
 		key:      in std_logic_vector(63 downto 0);
-		data_out: out std_logic_vector(63 downto 0)
+		data_out: out std_logic_vector(63 downto 0);
+		CLK: in std_logic
 		);
 end prince_core;
 
