@@ -63,14 +63,20 @@ architecture structural of prince_top is
 		Z: out std_logic 
 		);
 	end component xor2;
+	component xor2_fan
+		port( 
+		A, B: in std_logic_vector;
+		Z: out std_logic_vector 
+		);
+	end component xor2_fan;
 begin  
 	-- Key extension/whitening keys
 	XRK: xor2 port map(key(65),key(127),k0_end(0));
 	k0_end(63 downto 1) <= key(64) & key(127 downto 66);
 	
 	-- PRINCE_core
-	CI: xor2 port map(data_in,k0_start,core_in);
-	DO: xor2 port map(core_out,k0_end,data_out);
+	CI: xor2_fan port map(data_in,k0_start,core_in);
+	DO: xor2_fan port map(core_out,k0_end,data_out);
 	
 	PC: prince_core port map(
 		data_in => core_in,
