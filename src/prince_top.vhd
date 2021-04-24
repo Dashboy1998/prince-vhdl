@@ -9,7 +9,7 @@ entity prince_top is
 		);
 end prince_top;
 
-architecture structural of prince_top is
+architecture dataflow of prince_top is
 	-- Intermediate signals for splitting the key into the whitening keys k0
 	-- and k0_end, and the key k1 which is used in prince_core
 	alias k0_start is key(127 downto 64);
@@ -39,4 +39,4 @@ begin
 		key => k1,
 		data_out => core_out
 		);
-end architecture;
+end architecture dataflow;

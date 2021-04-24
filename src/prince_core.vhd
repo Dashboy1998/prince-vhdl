@@ -9,7 +9,7 @@ entity prince_core is
 		);
 end prince_core;
 
-architecture structural of prince_core is
+architecture dataflow of prince_core is
 	type round_constants is array(0 to 11) of std_logic_vector(63 downto 0);
 	type intermediate_signals is array(0 to 11) of std_logic_vector(63 downto 0);
 	
@@ -129,4 +129,4 @@ begin
 	
 	-- Round 11
 	data_out <= ims(11) xor rcs(11) xor key;
-end architecture;
+end architecture dataflow;
