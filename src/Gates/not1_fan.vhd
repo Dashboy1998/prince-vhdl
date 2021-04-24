@@ -15,7 +15,7 @@ component not1
 	Z: out std_logic
 	);	
 end component not1;
-alias ZA is Z (A'range);
+alias ZA : std_logic_vector (A'range) is Z;
 begin
 	GEN: for i in A'range generate
 		Gate: not1 port map(

@@ -16,7 +16,7 @@ component dff
 	Q: out std_logic 
 	);
 end component dff;
-alias QA is Q (D'range);
+alias QA : std_logic_vector (D'range) is Q;
 begin
 	GEN: for i in D'range generate
 		FF: dff port map(

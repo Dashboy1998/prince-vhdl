@@ -15,9 +15,9 @@ component xor3
 	Z: out std_logic
 	);	
 end component xor3;
-alias BA is B (A'range);
-alias CA is C (A'range);
-alias ZA is Z (A'range);
+alias BA : std_logic_vector (A'range) is B;
+alias CA : std_logic_vector (A'range) is C;
+alias ZA : std_logic_vector (A'range) is Z;
 begin
 	GEN: for i in A'range generate
 		Gate: xor3 port map(

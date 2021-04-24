@@ -15,10 +15,10 @@ component or4
 	Z: out std_logic
 	);	
 end component or4;
-alias BA is B (A'range);
-alias CA is C (A'range);
-alias DA is D (A'range);
-alias ZA is Z (A'range);
+alias BA : std_logic_vector (A'range) is B;
+alias CA : std_logic_vector (A'range) is C;
+alias DA : std_logic_vector (A'range) is D;
+alias ZA : std_logic_vector (A'range) is Z;
 begin
 	GEN: for i in A'range generate
 		Gate: or4 port map(
