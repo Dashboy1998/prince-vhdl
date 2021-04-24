@@ -3,9 +3,9 @@ use ieee.std_logic_1164.all;
 
 -- The top level module of PRINCE
 entity prince_top is
-	port(plaintext:  in std_logic_vector(63 downto 0);  -- 64 bit plaintext block
+	port(data_in:  in std_logic_vector(63 downto 0);  -- 64 bit plaintext block
 		key:        in std_logic_vector(127 downto 0); -- 128 bit key
-		ciphertext: out std_logic_vector(63 downto 0)  -- 64 bit encrypted block
+		data_out: out std_logic_vector(63 downto 0)  -- 64 bit encrypted block 
 		);
 end prince_top;
 
@@ -31,8 +31,8 @@ begin
 	k0_end <= key(64) & key(127 downto 66) & (key(65) xor key(127));
 	
 	-- PRINCE_core
-	core_in <= plaintext xor k0_start;
-	ciphertext <= core_out xor k0_end;
+	core_in <= data_in xor k0_start;
+	data_out <= core_out xor k0_end;
 	
 	PC: prince_core port map(
 		data_in => core_in,
