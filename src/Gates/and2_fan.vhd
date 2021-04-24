@@ -1,6 +1,5 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use work.delays.all;
 
 entity and2_fan is
 	port( 
