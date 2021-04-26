@@ -4,6 +4,7 @@ use ieee.std_logic_1164.all;
 package constants is
 	type round_constants is array(0 to 11) of std_logic_vector(63 downto 0);
 	type intermediate_signals is array(0 to 11) of std_logic_vector(63 downto 0);
+	constant alpha: std_logic_vector(63 downto 0) := x"c0ac29b7c97c50dd";
 	
 	-- Round constants for each round
 	constant rcs: round_constants := (

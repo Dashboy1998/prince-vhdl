@@ -14,12 +14,14 @@ architecture TB_ARCHITECTURE of prince_top_tb is
 		data_in : in STD_LOGIC_VECTOR(63 downto 0);
 		key : in STD_LOGIC_VECTOR(127 downto 0);
 		data_out : out STD_LOGIC_VECTOR(63 downto 0);
+		decrypt: in std_logic;
 		CLK : in STD_LOGIC );
 	end component;
 
 	-- Stimulus signals - signals mapped to the input and inout ports of tested entity
 	signal data_in : STD_LOGIC_VECTOR(63 downto 0);
 	signal key : STD_LOGIC_VECTOR(127 downto 0);
+	signal decrypt: std_logic;
 	signal CLK : STD_LOGIC:='0';
 	-- Observed signals - signals mapped to the output ports of tested entity
 	signal data_out : STD_LOGIC_VECTOR(63 downto 0);
@@ -36,22 +38,30 @@ begin
 			data_in => data_in,
 			key => key,
 			data_out => data_out,
+			decrypt => decrypt,
 			CLK => CLK
 		);
 
 	-- Add your stimulus here ...
 	process
 	begin
-		wait until rising_edge(CLK);
-		data: for j in 0 to 499 loop
-			counter <= j;
-			data_in <= tests(j).plain;
-			key <= tests(j).key;
-			expected <= tests(j).cipher;
-			
+		Enc_dec: for i in 0 to 1 loop
 			wait until rising_edge(CLK);
-			error <= expected /= data_out;
-		end loop data;
+			if i = 0 then 
+				decrypt <= '0'; 
+			else 
+				decrypt <= '1'; 
+			end if;
+			data: for j in 0 to 499 loop
+				counter <= j;
+				data_in <= tests(j).plain when i = 0 else tests(j).cipher;
+				key <= tests(j).key;
+				expected <= tests(j).cipher when i = 0 else tests(j).plain;
+				
+				wait until rising_edge(CLK);
+				error <= expected /= data_out;
+			end loop data;
+		end loop Enc_dec;
 		report "End of Test" severity failure;
 	end process;
 	
