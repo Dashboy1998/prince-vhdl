@@ -10,7 +10,8 @@ package delays is
 	constant propagation_delay_xor2: time := 20 ps;
 	constant propagation_delay_xor3: time := 20 ps;
 	
-	-- OR Gates
+	-- OR Gates	 
+	constant propagation_delay_or2: time := 20 ps;
 	constant propagation_delay_or3: time := 20 ps;
 	constant propagation_delay_or4: time := 20 ps;
 	constant propagation_delay_or5: time := 20 ps;
