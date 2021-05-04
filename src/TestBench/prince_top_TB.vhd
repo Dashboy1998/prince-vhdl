@@ -29,7 +29,8 @@ architecture TB_ARCHITECTURE of prince_top_tb is
 	-- Add your code here ...
 	signal expected: std_logic_vector(63 downto 0);
 	signal counter: natural:=0; -- Used to track test number
-	signal error: boolean:=false;
+	signal error: boolean:=false; 
+	signal first: boolean:=false;
 begin
 
 	-- Unit Under Test port map
@@ -60,6 +61,7 @@ begin
 				
 				wait until rising_edge(CLK);
 				error <= expected /= data_out;
+				first <= x"818665AA0D02DFDA" = data_out;
 			end loop data;
 		end loop Enc_dec;
 		report "End of Test" severity failure;
@@ -67,7 +69,7 @@ begin
 	
 	CLOCK: process
 	begin			  
-		wait for 20ns;
+		wait for 50ns;
 		CLK <= not CLK;
 	end process;
 end TB_ARCHITECTURE;

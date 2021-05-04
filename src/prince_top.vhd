@@ -23,6 +23,7 @@ architecture structural of prince_top is
 	signal k0_end: std_logic_vector(63 downto 0); -- Value used in last XOR
 	signal decrypt_vector: std_logic_vector(63 downto 0); 
 	signal xor_val: std_logic_vector(63 downto 0);
+	signal ims_k0_end: intermediate_signals;
 	-- Data I/O for prince_core
 	signal core_in,
 	core_out: std_logic_vector(63 downto 0);
@@ -59,6 +60,13 @@ architecture structural of prince_top is
 		Z: out std_logic_vector 
 		);
 	end component mux2_fan;
+	component dff_fan
+		port( 
+		D: in std_logic_vector;
+		CLK: in std_logic;
+		Q: out std_logic_vector 
+		);
+	end component dff_fan;
 begin
 	decrypt_vector <= (others => decrypt); 
 	XV: and2_fan port map(alpha,decrypt_vector,xor_val);
@@ -81,4 +89,10 @@ begin
 		data_out => core_out,
 		CLK => CLK
 		);
+
+	-- D Flip Flop for k0_end
+	ims_k0_end(0) <= k0_end;
+	K0_FF: for i in 0 to 10 generate
+		DK0_endX: dff_fan port map (ims_k0_end(i),CLK,ims_k0_end(i+1));
+	end generate;
 end architecture structural;
