@@ -27,8 +27,7 @@ wave -noreg data_out
 wave -noreg expected
 wave -noreg counter
 wave -noreg decrypt
-wave -noreg error
-wave -noreg first
+wave -noreg error	 
 wave -noreg CLK
 # The following lines can be used for timing simulation
 # acom <backannotated_vhdl_file_name>

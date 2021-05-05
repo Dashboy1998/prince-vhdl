@@ -24,6 +24,7 @@ architecture structural of prince_top is
 	signal decrypt_vector: std_logic_vector(63 downto 0); 
 	signal xor_val: std_logic_vector(63 downto 0);
 	signal ims_k0_end: intermediate_signals;
+	signal ff_out: std_logic_vector(63 downto 0);
 	-- Data I/O for prince_core
 	signal core_in,
 	core_out: std_logic_vector(63 downto 0);
@@ -81,7 +82,8 @@ begin
 	
 	-- PRINCE_core
 	CI: xor2_fan port map(data_in,k0_start,core_in);
-	DO: xor2_fan port map(core_out,k0_end,data_out);
+	DO: xor2_fan port map(core_out,ims_k0_end(11),ff_out);
+	PO: dff_fan port map (ff_out,CLK,data_out);
 	
 	PC: prince_core port map(
 		data_in => core_in,

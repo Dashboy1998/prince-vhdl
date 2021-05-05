@@ -30,7 +30,7 @@ architecture TB_ARCHITECTURE of prince_top_tb is
 	signal expected: std_logic_vector(63 downto 0);
 	signal counter: natural:=0; -- Used to track test number
 	signal error: boolean:=false; 
-	signal first: boolean:=false;
+	signal first_done: boolean:=false;
 begin
 
 	-- Unit Under Test port map
@@ -45,6 +45,7 @@ begin
 
 	-- Add your stimulus here ...
 	process
+	variable first_done: boolean:=false;
 	begin
 		Enc_dec: for i in 0 to 1 loop
 			wait until rising_edge(CLK);
@@ -54,14 +55,21 @@ begin
 				decrypt <= '1'; 
 			end if;
 			data: for j in 0 to 499 loop
+				if counter >= 14 then
+					first_done := true;
+				end if;
+				if first_done then
+					error <= tests(j-14).cipher /= data_out;
+
+	
+				end if;
+				
 				counter <= j;
 				data_in <= tests(j).plain when i = 0 else tests(j).cipher;
 				key <= tests(j).key;
 				expected <= tests(j).cipher when i = 0 else tests(j).plain;
 				
 				wait until rising_edge(CLK);
-				error <= expected /= data_out;
-				first <= x"818665AA0D02DFDA" = data_out;
 			end loop data;
 		end loop Enc_dec;
 		report "End of Test" severity failure;
