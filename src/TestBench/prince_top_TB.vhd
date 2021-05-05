@@ -55,23 +55,34 @@ begin
 				decrypt <= '1'; 
 			end if;
 			data: for j in 0 to 499 loop
-				if counter >= 14 then
+				if counter >= 12 then
 					first_done := true;
 				end if;
 				if first_done then
-					error <= tests(j-14).cipher /= data_out;
-
-	
+					if i = 1 and j <= 12 then
+						error <= tests(499-12+j).cipher /= data_out;
+						expected <= tests(499-12+j).cipher;
+					elsif i = 0 then
+						error <= tests(j-13).cipher /= data_out; 
+						expected <= tests(j-13).cipher;
+					elsif i = 1 then
+						error <= tests(j-12).plain /= data_out;	
+						expected <= tests(j-12).plain;
+					end if;
 				end if;
 				
 				counter <= j;
 				data_in <= tests(j).plain when i = 0 else tests(j).cipher;
 				key <= tests(j).key;
-				expected <= tests(j).cipher when i = 0 else tests(j).plain;
+				
 				
 				wait until rising_edge(CLK);
 			end loop data;
 		end loop Enc_dec;
+		-- Loop to wait for last data
+		for i in 0 to 14 loop 
+			wait until rising_edge(CLK);	
+		end loop;
 		report "End of Test" severity failure;
 	end process;
 	
